@@ -11,8 +11,8 @@ BehaviorProgramming::BehaviorProgramming(QWidget *parent) :
     ui->textFrame->setHidden(true);
     ui->thresholdEdit_2->setDisabled(true);
     ui->thresholdEdit_3->setDisabled(true);
+    setWindowTitle("Unsaved");
 }
-
 BehaviorProgramming::~BehaviorProgramming()
 {
     delete ui;
@@ -21,11 +21,23 @@ BehaviorProgramming::~BehaviorProgramming()
 void BehaviorProgramming::on_actionNew_triggered()
 {
     currentFile.clear();
-    ui->triggerNameEdit->setText("");
+    ui->triggerNameEdit->clear();
     ui->inTypeMenu->setCurrentIndex(0);
     ui->inPortMenu->setCurrentIndex(0);
     ui->showNameMenu->setCurrentIndex(0);
+    ui->logicCombo->setCurrentIndex(0);
     ui->triggerList->clear();
+    ui->thresholdEdit->clear();
+    ui->thresholdEdit_2->clear();
+    ui->thresholdEdit_3->clear();
+    ui->commandText->clear();
+    ui->analogFrame->setHidden(false);
+    ui->textFrame->setHidden(true);
+    ui->thresholdEdit->setEnabled(true);
+    ui->thresholdEdit_2->setDisabled(true);
+    ui->thresholdEdit_3->setDisabled(true);
+
+    setWindowTitle("Unsaved");
 }
 
 
@@ -38,15 +50,28 @@ void BehaviorProgramming::on_actionSave_triggered()
         QMessageBox::warning(this, "Warning", "Cannot save file : " + file.errorString());
         return;
     }
+    QFileInfo fileInfo(file.fileName());
+    fileName = fileInfo.fileName();
     currentFile = fileName;
     setWindowTitle(fileName);
-    //QTextStream out(&file);
+    QTextStream out(&file);
+    out << "Title," + fileName +"\n";
+    out << "Triggers\n";
+    for(int i = 0; i < ui->triggerList->count(); i++)
+    {
+            QListWidgetItem *item = ui->triggerList->item(i);
+            out << item->text() +"\n";
+    }
+    out << "End Triggers";
+
 }
 
 void BehaviorProgramming::on_actionOpen_triggered()
 {
     QString fileName = QFileDialog::getOpenFileName(this, "Open the file");
     QFile file(fileName);
+    QFileInfo fileInfo(file.fileName());
+    fileName = fileInfo.fileName();
     currentFile = fileName;
     if(!file.open(QIODevice::ReadOnly | QFile::Text))
     {
@@ -54,6 +79,29 @@ void BehaviorProgramming::on_actionOpen_triggered()
         return;
     }
     setWindowTitle(fileName);
+    ui->analogFrame->setHidden(false);
+    ui->textFrame->setHidden(true);
+    ui->thresholdEdit->setEnabled(true);
+    ui->thresholdEdit_2->setDisabled(true);
+    ui->thresholdEdit_3->setDisabled(true);
+
+    QTextStream in(&file);
+    QString text;
+    text = in.readLine();
+    text = in.readLine();
+    if(text != "Triggers")
+    {
+        QMessageBox::warning(this, "Warning", "Not a .bmo file! " );
+        return;
+    }
+    text = in.readLine();
+    while(text!="End Triggers")
+    {
+        ui->triggerList->addItem(text);
+        text = in.readLine();
+    }
+    file.close();
+
 }
 
 void BehaviorProgramming::on_inTypeMenu_activated(const QString &arg1)
