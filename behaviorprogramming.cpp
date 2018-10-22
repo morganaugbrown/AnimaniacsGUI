@@ -9,8 +9,8 @@ BehaviorProgramming::BehaviorProgramming(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->textFrame->setHidden(true);
-    ui->spinBox_2->setDisabled(true);
-    ui->spinBox_3->setDisabled(true);
+    ui->thresholdEdit_2->setDisabled(true);
+    ui->thresholdEdit_3->setDisabled(true);
 }
 
 BehaviorProgramming::~BehaviorProgramming()
@@ -25,6 +25,7 @@ void BehaviorProgramming::on_actionNew_triggered()
     ui->inTypeMenu->setCurrentIndex(0);
     ui->inPortMenu->setCurrentIndex(0);
     ui->showNameMenu->setCurrentIndex(0);
+    ui->triggerList->clear();
 }
 
 
@@ -77,14 +78,40 @@ void BehaviorProgramming::on_logicCombo_activated(const QString &arg1)
 {
     if(arg1 == "< X <")
     {
-        ui->spinBox->setDisabled(true);
-        ui->spinBox_2->setEnabled(true);
-        ui->spinBox_3->setEnabled(true);
+        ui->thresholdEdit->setDisabled(true);
+        ui->thresholdEdit_2->setEnabled(true);
+        ui->thresholdEdit_3->setEnabled(true);
     }
     else
     {
-        ui->spinBox->setEnabled(true);
-        ui->spinBox_2->setDisabled(true);
-        ui->spinBox_3->setDisabled(true);
+        ui->thresholdEdit->setEnabled(true);
+        ui->thresholdEdit_2->setDisabled(true);
+        ui->thresholdEdit_3->setDisabled(true);
     }
+}
+
+void BehaviorProgramming::on_addTrigger_clicked()
+{
+    QString trigger;
+    if(ui->inTypeMenu->currentText() == "Text")
+    {
+        trigger = ui->triggerNameEdit->text() +"," + ui->inTypeMenu->currentText() +
+                "," + ui->inPortMenu->currentText() +"," + ui->commandText->text() + "," + ui->showNameMenu->currentText();
+    }
+    else
+    {
+        if(ui->logicCombo->currentText() == "< X <")
+        {
+            trigger = ui->triggerNameEdit->text() +"," + ui->inTypeMenu->currentText() +
+                    "," + ui->inPortMenu->currentText() +"," + ui->logicCombo->currentText()
+                    + "," + ui->thresholdEdit_2->text() + "," + ui->thresholdEdit_3->text() +"," + ui->showNameMenu->currentText();
+        }
+        else
+        {
+            trigger = ui->triggerNameEdit->text() +"," + ui->inTypeMenu->currentText() +
+                    "," + ui->inPortMenu->currentText() +"," + ui->logicCombo->currentText()
+                    + "," +  ui->thresholdEdit->text() +"," + ui->showNameMenu->currentText();
+        }
+    }
+    ui->triggerList->addItem(trigger);
 }

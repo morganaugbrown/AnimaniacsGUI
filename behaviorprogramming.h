@@ -30,6 +30,8 @@ private slots:
 
     void on_logicCombo_activated(const QString &arg1);
 
+    void on_addTrigger_clicked();
+
 private:
     Ui::BehaviorProgramming *ui;
     QString currentFile = "";
