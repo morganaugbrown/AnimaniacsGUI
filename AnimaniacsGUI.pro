@@ -27,15 +27,49 @@ CONFIG += c++11
 SOURCES += \
         main.cpp \
         homewindow.cpp \
-    behaviorprogramming.cpp
+    behaviorprogramming.cpp \
+    controlleradapter.cpp \
+    leddialog.cpp \
+    ledtrack.cpp \
+    motordialog.cpp \
+    motortrack.cpp \
+    serialdaemon.cpp \
+    showbaseclass.cpp \
+    showeditorwindow.cpp \
+    showprimarypanel.cpp \
+    track.cpp \
+    wavdialog.cpp \
+    wavtrack.cpp
 
 HEADERS += \
         homewindow.h \
-    behaviorprogramming.h
+    behaviorprogramming.h \
+    behaviorprogramming.h \
+    controlleradapter.h \
+    homewindow.h \
+    leddialog.h \
+    ledtrack.h \
+    motordialog.h \
+    motortrack.h \
+    point.h \
+    serialdaemon.h \
+    showbaseclass.h \
+    showeditorwindow.h \
+    showprimarypanel.h \
+    wavdialog.h \
+    wavtrack.h \
+    track.h
 
 FORMS += \
         homewindow.ui \
-    behaviorprogramming.ui
+    behaviorprogramming.ui \
+    leddialog.ui \
+    motordialog.ui \
+    showeditorwindow.ui \
+    wavdialog.ui
+
+QT += \
+    serialport
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

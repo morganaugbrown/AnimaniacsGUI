@@ -1,6 +1,6 @@
 #include "behaviorprogramming.h"
 #include "ui_behaviorprogramming.h"
-
+#include <QDir>
 
 
 BehaviorProgramming::BehaviorProgramming(QWidget *parent) :
@@ -12,6 +12,14 @@ BehaviorProgramming::BehaviorProgramming(QWidget *parent) :
     ui->thresholdEdit_2->setDisabled(true);
     ui->thresholdEdit_3->setDisabled(true);
     setWindowTitle("Unsaved");
+
+    QDir directory("C:/Users/Morga/Documents/AnimaniacsGUI/Shows");
+    directory.setFilter(QDir::Files | QDir::NoDotAndDotDot | QDir::NoSymLinks);
+    QFileInfoList list = directory.entryInfoList();
+    for (int i = 0; i < list.size(); ++i) {
+            QFileInfo fileInfo = list.at(i);
+            ui->showNameMenu->addItem(fileInfo.fileName());
+        }
 }
 BehaviorProgramming::~BehaviorProgramming()
 {

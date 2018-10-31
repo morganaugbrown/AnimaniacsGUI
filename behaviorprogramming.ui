@@ -93,21 +93,6 @@
       <height>22</height>
      </rect>
     </property>
-    <item>
-     <property name="text">
-      <string>Greeting</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Nap Time</string>
-     </property>
-    </item>
-    <item>
-     <property name="text">
-      <string>Congrats</string>
-     </property>
-    </item>
    </widget>
    <widget class="QPushButton" name="addTrigger">
     <property name="geometry">
